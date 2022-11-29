@@ -1,14 +1,28 @@
 const express = require('express');
+const cors = require('cors');
 const routerApi = require('./routes/index');
 
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/errorHandler');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+routerApi(app);
 
 app.use(express.json());
 
-routerApi(app);
+const whitelist = ['http://localhost:8080', 'file:///D:/Proyects/frontend.html', 'file:///D:/Proyects/frontend.html'];
+const options = {
+  origin: (origin, callback) => {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('no permitido'));
+    }
+  }
+}
+
+app.use(cors(options));
 
 app.use(logErrors);
 app.use(boomErrorHandler);

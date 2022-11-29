@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/boom": "^10.0.0",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "faker": "^5.5.3",
     "joi": "^17.7.0",
@@ -24,5 +25,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "nodmeon": "^0.0.1-security",
     "prettier": "^2.7.1"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
