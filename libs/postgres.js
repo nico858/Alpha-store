@@ -6,7 +6,7 @@ async function getConnection(){
     host: 'localhost',
     port: 5432,
     user: 'nico',
-    passowrd: 'admin123',
+    password: 'admin123',
     database: 'alpha_store'
   });
   await client.connect();
