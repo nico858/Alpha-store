@@ -8,7 +8,11 @@
     "start": "node index.js",
     "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "stop": "pkill --signal SIGNIT myAPp"
+    "stop": "pkill --signal SIGNIT myAPp",
+    "migrations:generate": "sequelize-cli migration:generate --name",
+    "migrations:run": "sequelize-cli db:migrate",
+    "migrations:revert": "sequelize-cli db:migrate:undo",
+    "migrations:delete": "sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +27,7 @@
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.26.0",
+    "sequelize-cli": "^6.5.2",
     "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {

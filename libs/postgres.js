@@ -1,13 +1,12 @@
-const { Cliente, Client } = require('pg');
-const { normalizeQueryConfig } = require('pg/lib/utils');
+const { Client } = require('pg');
 
-async function getConnection(){
+async function getConnection() {
   const client = new Client({
     host: 'localhost',
     port: 5432,
     user: 'nico',
     password: 'admin123',
-    database: 'alpha_store'
+    database: 'my_store'
   });
   await client.connect();
   return client;
