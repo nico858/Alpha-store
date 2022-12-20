@@ -1,75 +1,39 @@
-const express = require('express');
+const boom = require('@hapi/boom');
 
-const rechargeService = require('./../services/recharge.service');
-const validatorHandler = require('./../middlewares/validator.handler');
-const { updateRechargeSchema, createOrderDetailSchema, getOrderDetailSchema } = require('./../schemas/recharge.schema');
+const { models } = require('../libs/sequelize');
 
-const router = express.Router();
-const service = new rechargeService();
+class RechargeService {
+  constructor() {}
 
-
-
-router.get('/', async (req, res, next) => {
-  try {
-    const orderDetail = await service.find();
-    res.json(orderDetail);
-  } catch (error) {
-    next(error);
+  async create(data) {
+    const newRecharge = await models.Recharge.create(data);
+    return newRecharge;
   }
-});
 
-router.get('/:orderDetailId',
-  validatorHandler(getOrderDetailSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const { orderDetailId } = req.params;
-      const orderDetail = await service.findOne(orderDetailId);
-      res.json(orderDetail);
-    } catch (error) {
-      next(error);
+  async find() {
+    const response = await models.Recharge.findAll();
+    return response;
+  }
+
+  async findOne(id) {
+    const recharge = await models.Recharge.findByPk(id);
+    if (!recharge) {
+      throw boom.notFound('Recharge not found');
     }
+    return recharge;
   }
-);
 
-router.post('/',
-  validatorHandler(createOrderDetailSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const body = req.body;
-      const newOrderDetail = await service.create(body);
-      res.status(201).json(newOrderDetail);
-    } catch (error) {
-      next(error);
-    }
+  async update(id, changes) {
+    const recharge = await this.findOne(id);
+    const response = await recharge.update(changes);
+    return response;
   }
-);
 
-router.patch('/:orderDetailId',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateRechargeSchema, 'body'),
-  async (req, res, next) => {
-    try {
-      const { orderDetailId } = req.params;
-      const body = req.body;
-      const orderDetail = await service.update(orderDetailId, body);
-      res.json(orderDetail);
-    } catch (error) {
-      next(error);
-    }
+  async delete(id) {
+    const recharge = await this.findOne(id);
+    await recharge.destroy();
+    return { id };
   }
-);
+}
 
-router.delete('/:orderDetailId',
-  validatorHandler(getOrderDetailSchema, 'params'),
-  async (req, res, next) => {
-    try {
-      const { id } = req.params;
-      await service.delete(orderDetailId);
-      res.status(201).json({orderDetailId});
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-module.exports = router;
+module.exports = RechargeService;

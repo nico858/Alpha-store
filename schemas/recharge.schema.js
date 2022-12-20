@@ -3,7 +3,7 @@ const Joi = require('joi');
 const rechargeId = Joi.number().integer();
 const clientId = Joi.number().integer();
 const cash = Joi.number().integer();
-const dateRecharge = Joi.string().isoDate();
+const dateRecharge = Joi.date();
 
 const createRechargeSchema = Joi.object({
   clientId: clientId.required(),

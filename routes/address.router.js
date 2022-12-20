@@ -5,7 +5,7 @@ const validatorHandler = require('./../middlewares/validator.handler');
 const { updateAddressSchema, createAddressSchema, getAddressSchema } = require('./../schemas/address.schema');
 
 const router = express.Router();
-const service = new UserService();
+const service = new AddressService();
 
 
 
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:addressId',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getAddressSchema, 'params'),
   async (req, res, next) => {
     try {
       const { addressId } = req.params;
@@ -60,7 +60,7 @@ router.patch('/:addressId',
 );
 
 router.delete('/:addressId',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getAddressSchema, 'params'),
   async (req, res, next) => {
     try {
       const { addressId } = req.params;

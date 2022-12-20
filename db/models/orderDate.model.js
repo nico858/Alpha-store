@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-//const { CUSTOMER_TABLE } = require('./customer.model');
+const { USER_TABLE } = require('./user.model');
 
 const ORDER_DATE_TABLE = 'orderDates';
 
@@ -14,6 +14,10 @@ const OrderDateSchema = {
     field: 'customer_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    references: {
+      model: USER_TABLE,
+      key: 'userId'
+    },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'
   },
@@ -29,15 +33,15 @@ const OrderDateSchema = {
 class OrderDate extends Model {
 
   static associate(models) {
-    // this.belongsTo(models.Customer, {
-    //   as: 'customer',
-    // });
-    // this.belongsToMany(models.Product, {
-    //   as: 'items',
-    //   through: models.OrderProduct,
-    //   foreignKey: 'orderId',
-    //   otherKey: 'productId'
-    // });
+    this.belongsTo(models.User, {
+      as: 'user',
+    });
+    this.belongsToMany(models.Product, {
+      as: 'items',
+      through: models.orderDetail,
+      foreignKey: 'orderId',
+      otherKey: 'productId'
+    });
   }
 
   static config(sequelize) {

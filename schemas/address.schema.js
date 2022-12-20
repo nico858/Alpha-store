@@ -2,18 +2,17 @@ const Joi = require('joi');
 
 const addressId = Joi.number().integer();
 const clientId = Joi.number().integer();
-const nomencature = Joi.string().min(10).max(40);
-const detail = Joi.string().min().max();
+const nomecature = Joi.string().min(10).max(40);
+const detail = Joi.string().min(5).max(20);
 
 const createAddressSchema = Joi.object({
-  addressId: addressId.required(),
   clientId: clientId.required(),
-  nomencature: nomencature.required(),
+  nomecature: nomecature.required(),
   detail: detail.required(),
 });
 
 const updateAddressSchema = Joi.object({
-  nomencature: nomencature,
+  nomecature: nomecature,
   detail: detail,
 });
 

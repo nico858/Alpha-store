@@ -45,7 +45,7 @@ router.post('/',
 );
 
 router.patch('/:orderDetailId',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getOrderDetailSchema, 'params'),
   validatorHandler(updateOrderDetailSchema, 'body'),
   async (req, res, next) => {
     try {

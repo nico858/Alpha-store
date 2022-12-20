@@ -1,8 +1,3 @@
-const adressId = Joi.number().integer();
-const clientId = Joi.number().integer();
-const nomencature = Joi.string().min(10).max(40);
-const detail = Joi.string().min().max();
-
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
 const ADRESS_TABLE = 'address';
@@ -30,8 +25,8 @@ const AddressSchema = {
 
 class Address extends Model {
   static associate(models) {
-    // this.hasOne(models.Customer, {
-    //   as: 'customer',
+    // this.hasMany(models.Address, {
+    //   as: 'address',
     //   foreignKey: 'userId'
     // });
   }

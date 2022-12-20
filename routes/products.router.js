@@ -47,9 +47,9 @@ router.patch('/:productId',
   validatorHandler(updateProductSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { productId } = req.params;
       const body = req.body;
-      const product = await service.update(id, body);
+      const product = await service.update(productId, body);
       res.json(product);
     } catch (error) {
       next(error);

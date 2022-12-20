@@ -1,11 +1,11 @@
 const express = require('express');
 
-const RechargeService = require('./../services/recharge.service');
-const validatorHandler = require('./../middlewares/validator.handler');
-const { createRechargeSchema, updateRechargeSchema, getRechargeSchema } = require('./../schemas/recharge.schema');
+const RechargeService = require('../services/recharge.service');
+const validatorHandler = require('../middlewares/validator.handler');
+const { createRechargeSchema, updateRechargeSchema, getRechargeSchema } = require('../schemas/recharge.schema');
 
 const router = express.Router();
-const service = new ProductsService();
+const service = new RechargeService();
 
 router.get('/', async (req, res, next) => {
   try {
@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/:rechargeId',
-  validatorHandler(getProductSchema, 'params'),
+  validatorHandler(getRechargeSchema, 'params'),
   async (req, res, next) => {
     try {
       const { rechargeId } = req.params;
@@ -30,7 +30,7 @@ router.get('/:rechargeId',
 );
 
 router.post('/',
-  validatorHandler(createProductSchema, 'body'),
+  validatorHandler(createRechargeSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -42,14 +42,14 @@ router.post('/',
   }
 );
 
-router.patch('/:productId',
+router.patch('/:rechargeId',
   validatorHandler(getRechargeSchema, 'params'),
   validatorHandler(updateRechargeSchema, 'body'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const { rechargeId } = req.params;
       const body = req.body;
-      const recharge = await service.update(id, body);
+      const recharge = await service.update(rechargeId, body);
       res.json(recharge);
     } catch (error) {
       next(error);
@@ -61,9 +61,9 @@ router.delete('/:rechargeId',
   validatorHandler(getRechargeSchema, 'params'),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      await service.delete(id);
-      res.status(201).json({id});
+      const { rechargeId } = req.params;
+      await service.delete(rechargeId);
+      res.status(201).json({rechargeId});
     } catch (error) {
       next(error);
     }

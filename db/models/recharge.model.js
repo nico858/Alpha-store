@@ -21,7 +21,7 @@ const RechargeSchema = {
   },
   dateRecharge: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     field: 'date_recharge',
     defaultValue: Sequelize.NOW
   }
