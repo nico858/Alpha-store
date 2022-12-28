@@ -37,8 +37,8 @@ class OrderDate extends Model {
       as: 'user',
     });
     this.belongsToMany(models.Product, {
+      through: models.OrderDetail,
       as: 'items',
-      through: models.orderDetail,
       foreignKey: 'orderId',
       otherKey: 'productId'
     });

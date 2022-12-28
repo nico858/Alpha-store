@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes/index');
+const { checkApiKey } = require('./middlewares/auth.handler');
 
 const { logErrors, errorHandler, boomErrorHandler } = require('./middlewares/error.handler');
 
@@ -33,7 +34,7 @@ app.get('/', (req, res) => {
   res.send('Aquí va a estar la mejor tienda de CR7');
 })
 
-app.get('/nueva-ruta', (req, res) => {
+app.get('/nueva-ruta', checkApiKey, (req, res) => {
   res.send('New endpoint');
 })
 
