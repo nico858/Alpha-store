@@ -4,11 +4,22 @@ const { config } = require('./../config/config')
 
 function checkApiKey(req, res, next) {
   const apiKey = req.headers['api'];
-  if(apiKey === '123') {
+  if(apiKey === config.apiKey) {
     next();
   } else {
     next(boom.unauthorized());
   }
 }
 
-module.exports = { checkApiKey };
+function checkRoles(...roles) {
+  return(req, rest, next) => {
+    const user = req.user;
+    if(user.role === 'admin') {
+      next();
+    } else {
+      next(boom.forbidden('You need permissions to do that'));
+    }
+  }
+}
+
+module.exports = { checkApiKey, checkRoles };

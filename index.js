@@ -25,6 +25,8 @@ const options = {
 
 app.use(cors(options));
 
+require('./utils/aut');
+
 app.use(logErrors);
 app.use(boomErrorHandler);
 app.use(errorHandler);

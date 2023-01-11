@@ -1,8 +1,8 @@
 const express = require('express');
 
-const AddressService = require('./../services/address.service');
-const validatorHandler = require('./../middlewares/validator.handler');
-const { updateAddressSchema, createAddressSchema, getAddressSchema } = require('./../schemas/address.schema');
+const AddressService = require('../services/address.service');
+const validatorHandler = require('../middlewares/validator.handler');
+const { updateAddressSchema, createAddressSchema, getAddressSchema } = require('../schemas/address.schema');
 
 const router = express.Router();
 const service = new AddressService();

@@ -15,6 +15,21 @@ class OrderDateService {
     return response;
   }
 
+  async findByUser(userId) {
+    const orders = await models.OrderDate.findByPk(id , {
+      where: {
+        'customer.user.id$': userId
+      },
+      include: [
+        {
+          association: 'user',
+          include: ['user']
+        }
+      ]
+    });
+    return orders;
+  }
+
   async findOne(id) {
     const orderDate = await models.OrderDate.findByPk(id);
     if (!orderDate) {

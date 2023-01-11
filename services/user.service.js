@@ -1,4 +1,6 @@
 const boom = require('@hapi/boom');
+const bcrypt = require('bcrypt');
+const { DataRowMessage } = require('pg-protocol/dist/messages');
 
 const { models } = require('./../libs/sequelize');
 
@@ -6,12 +8,30 @@ class UserService {
   constructor() {}
 
   async create(data) {
-    const newUser = await models.User.create(data);
+    const hash = await bcrypt.hash(data.userPassword, 10);
+    const newUser = await models.User.create({
+      ...data,
+      userPassword: hash
+    });
     return newUser;
   }
 
   async find() {
     const response = await models.User.findAll();
+    return response;
+  }
+
+  async findByUsername(username) {
+    const response = await models.User.findOne({
+      where: { username }
+    });
+    return response;
+  }
+
+  async findByEmail(email) {
+    const response = await models.User.findOne({
+      where: { email }
+    });
     return response;
   }
 
