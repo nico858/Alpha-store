@@ -34,27 +34,48 @@ class AuthService {
     };
   }
 
-  async sendMail(email) {
+  async sendRecovery(email) {
     const user = await service.findByEmail(email);
     if (!user) {
       throw boom.unauthorized();
     }
+    const payload = { sub: user.userId };
+    const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
+    const link = `http://alphafront.com/recovery?token=${token}`;
+    const mail = {
+      from: config.smtpEmail,
+      to: `${user.email}`,
+      subject: "Recovery password email",
+      html: `<b>Click in this link to recover your password ${link}</b>`,
+    }
+    const response = await this.sendMail(mail);
+    return response;
+  }
+
+  async changePassword(token, newPassword) {
+    try {
+      const payload = jwt.verify(token, config.jwtSecret);
+      const user = await service.findOne(payload.sub);
+      //seria útil agregar una validación del token agregando un recoveryToken como otro dato de la tabla
+      const hash = await bcrypt.hash(newPassword, 10);
+      await service.update(user.userId, {userPassword: hash});
+      return { message: 'password changed '};
+    } catch(error) {
+      throw boom.unauthorized();
+    }
+  }
+
+  async sendMail(infoMail) {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      secure: true, // true for 465, false for other ports
+      secure: true,
       port: 465,
       auth: {
-          user: 'alphastore7.info@gmail.com',
-          pass: 'xniwrmnhxtvxnwsc'
+          user: config.smtpEmail,
+          pass: config.smtpPass
       },
-  });
-    await transporter.sendMail({
-      from: 'alphastore7.info@gmail.com', // sender address
-      to: `${user.email}`, // list of receivers
-      subject: "Hello ✔", // Subject line
-      text: "Hello world?", // plain text body
-      html: "<b>Hello world?</b>", // html body
     });
+    await transporter.sendMail(infoMail);
     return { message: 'mail sent' };
   }
 }
