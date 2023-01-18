@@ -14,12 +14,14 @@ function setupModels(sequelize) {
   Recharge.init(RechargeSchema, Recharge.config(sequelize));
   User.init(UserSchema, User.config(sequelize));
 
-  //User.associate(sequelize.models);
-  //Customer.associate(sequelize.models);
-  //Category.associate(sequelize.models);
-  Product.associate(sequelize.models);
+  Address.associate(sequelize.models);
   OrderDate.associate(sequelize.models);
   OrderDetail.associate(sequelize.models);
+  Product.associate(sequelize.models);
+  Recharge.associate(sequelize.models);
+  User.associate(sequelize.models);
+
+
 }
 
 module.exports = setupModels;

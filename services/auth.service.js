@@ -42,6 +42,7 @@ class AuthService {
     const payload = { sub: user.userId };
     const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
     const link = `http://alphafront.com/recovery?token=${token}`;
+    await service.update(user.userId, {recoveryToken: token});
     const mail = {
       from: config.smtpEmail,
       to: `${user.email}`,
@@ -56,9 +57,11 @@ class AuthService {
     try {
       const payload = jwt.verify(token, config.jwtSecret);
       const user = await service.findOne(payload.sub);
-      //seria útil agregar una validación del token agregando un recoveryToken como otro dato de la tabla
+      if(user.recoveryToken !== token){
+        throw boom.unauthorized();
+      }
       const hash = await bcrypt.hash(newPassword, 10);
-      await service.update(user.userId, {userPassword: hash});
+      await service.update(user.userId, {recoveryToken: null, userPassword: hash});
       return { message: 'password changed '};
     } catch(error) {
       throw boom.unauthorized();

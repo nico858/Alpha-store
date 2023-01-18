@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const RECHARGE_TABLE = require('./recharge.model');
 
 const USER_TABLE = 'users';
 
@@ -40,6 +41,17 @@ const UserSchema = {
     allowNull: false,
     type: DataTypes.STRING,
     defaultValue: 'customer'
+  },
+  siuuPoints: {
+    field: 'siuu_points',
+    allowNull: true,
+    type: DataTypes.DOUBLE,
+    defaultValue: 0
+  },
+  recoveryToken: {
+    field: 'recovery_token',
+    allowNull: true,
+    type: DataTypes.STRING
   }
 }
 
@@ -49,6 +61,13 @@ class User extends Model {
       as: 'orders',
       foreignKey: 'userId'
     });
+    this.hasMany(models.Recharge, {
+      as: 'recharges',
+      foreignKey: 'rechargeId'
+    })
+    this.belongsTo(models.Address, {
+      as: 'address'
+    })
   }
 
   static config(sequelize) {

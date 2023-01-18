@@ -1,4 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { USER_TABLE } = require('./user.model');
 
 const ADRESS_TABLE = 'address';
 
@@ -25,10 +26,10 @@ const AddressSchema = {
 
 class Address extends Model {
   static associate(models) {
-    // this.hasMany(models.Address, {
-    //   as: 'address',
-    //   foreignKey: 'userId'
-    // });
+    this.hasMany(models.User, {
+      as: 'users',
+      foreignKey: 'userId'
+    });
   }
 
   static config(sequelize) {
