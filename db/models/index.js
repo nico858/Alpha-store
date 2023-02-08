@@ -14,7 +14,7 @@ function setupModels(sequelize) {
   Recharge.init(RechargeSchema, Recharge.config(sequelize));
   User.init(UserSchema, User.config(sequelize));
 
-  Address.associate(sequelize.models);
+  // Address.associate(sequelize.models);
   OrderDate.associate(sequelize.models);
   OrderDetail.associate(sequelize.models);
   Product.associate(sequelize.models);

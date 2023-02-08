@@ -59,14 +59,15 @@ class User extends Model {
   static associate(models) {
     this.hasMany(models.OrderDate, {
       as: 'orders',
-      foreignKey: 'userId'
+      foreignKey: 'clientId'
     });
     this.hasMany(models.Recharge, {
       as: 'recharges',
-      foreignKey: 'rechargeId'
-    })
-    this.belongsTo(models.Address, {
-      as: 'address'
+      foreignKey: 'clientId'
+    });
+    this.hasOne(models.Address, {
+      as: 'address',
+      foreignKey: 'clientId'
     })
   }
 

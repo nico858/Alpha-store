@@ -14,7 +14,14 @@ const RechargeSchema = {
   clientId: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    field: 'client_id'
+    field: 'client_id',
+    unique: false,
+    references: {
+      model: USER_TABLE,
+      key: 'clientId'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   },
   cash: {
     allowNull: false,

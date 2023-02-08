@@ -35,26 +35,24 @@ class UserService {
     return response;
   }
 
-  async findOne(id) {
-    const user = await models.User.findByPk(id, {
-      include: ['recharges']
-    });
+  async findOne(clientId) {
+    const user = await models.User.findByPk(clientId);
     if (!user) {
       throw boom.notFound('user not found');
     }
     return user;
   }
 
-  async update(id, changes) {
-    const user = await this.findOne(id);
+  async update(clientId, changes) {
+    const user = await this.findOne(clientId);
     const response = await user.update(changes);
     return response;
   }
 
-  async delete(id) {
-    const user = await this.findOne(id);
+  async delete(clienteId) {
+    const user = await this.findOne(clienteId);
     await user.destroy();
-    return { id };
+    return { clienteId };
   }
 }
 

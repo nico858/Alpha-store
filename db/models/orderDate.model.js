@@ -11,12 +11,12 @@ const OrderDateSchema = {
     type: DataTypes.INTEGER
   },
   clientId: {
-    field: 'customer_id',
+    field: 'client_id',
     allowNull: false,
     type: DataTypes.INTEGER,
     references: {
       model: USER_TABLE,
-      key: 'userId'
+      key: 'clientId'
     },
     onUpdate: 'CASCADE',
     onDelete: 'SET NULL'

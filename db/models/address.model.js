@@ -13,6 +13,14 @@ const AddressSchema = {
   clientId: {
     allowNull: false,
     type: DataTypes.STRING,
+    field: 'client_id',
+    unique: true,
+    references: {
+      model: USER_TABLE,
+      key: 'clientId'
+    },
+    onUpdate: 'CASCADE',
+    onDelete: 'SET NULL'
   },
   nomecature: {
     allowNull: false,
@@ -26,10 +34,7 @@ const AddressSchema = {
 
 class Address extends Model {
   static associate(models) {
-    this.hasMany(models.User, {
-      as: 'users',
-      foreignKey: 'userId'
-    });
+    this.belongsTo(models.User, {as: 'user'});
   }
 
   static config(sequelize) {

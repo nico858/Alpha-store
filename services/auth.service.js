@@ -24,7 +24,7 @@ class AuthService {
 
   signToken(user) {
     const payload = {
-      sub: user.userId,
+      sub: user.clientId,
       role: user.role
     }
     const token = jwt.sign(payload, config.jwtSecret);
@@ -39,10 +39,10 @@ class AuthService {
     if (!user) {
       throw boom.unauthorized();
     }
-    const payload = { sub: user.userId };
+    const payload = { sub: user.clientId };
     const token = jwt.sign(payload, config.jwtSecret, {expiresIn: '15min'});
     const link = `http://alphafront.com/recovery?token=${token}`;
-    await service.update(user.userId, {recoveryToken: token});
+    await service.update(user.clientId, {recoveryToken: token});
     const mail = {
       from: config.smtpEmail,
       to: `${user.email}`,
@@ -61,7 +61,7 @@ class AuthService {
         throw boom.unauthorized();
       }
       const hash = await bcrypt.hash(newPassword, 10);
-      await service.update(user.userId, {recoveryToken: null, userPassword: hash});
+      await service.update(user.clientId, {recoveryToken: null, userPassword: hash});
       return { message: 'password changed '};
     } catch(error) {
       throw boom.unauthorized();
